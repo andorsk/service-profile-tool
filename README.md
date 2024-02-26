@@ -2,7 +2,7 @@
 
 ## Features
 
-- [ ] Schema Validation
+- [x] Schema Validation
 - [ ] Profile Generation
 
 ## Build
