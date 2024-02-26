@@ -1,95 +1,81 @@
-import * as ed from '@noble/ed25519';
-import profileSchema from './profile.jsonschema';
-import Ajv, {JSONSchemaType} from "ajv"
+import * as ed from "@noble/ed25519";
 
+import { sha512 } from "@noble/hashes/sha512";
+ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
 
-(async () => {
-  // keys, messages & other inputs can be Uint8Arrays or hex strings
-  // Uint8Array.from([0xde, 0xad, 0xbe, 0xef]) === 'deadbeef'
+// Example async function to demonstrate ed25519 usage
+async function demoEd25519() {
   const privKey = ed.utils.randomPrivateKey(); // Secure random private key
   const message = Uint8Array.from([0xab, 0xbc, 0xcd, 0xde]);
-  const pubKey = await ed.getPublicKeyAsync(privKey); // Sync methods below
-  const signature = await ed.signAsync(message, privKey);
-  const isValid = await ed.verifyAsync(signature, message, pubKey);
-})();
-
-/*
- * metadata for service profile
- */
-class ServiceProfileMetadata {
-  _id: string;
-  _type: string;
-  _created: string;
-  _description: string;
-  _short_description: string;
-  _docs_url: string;
-  _supported_protocols: string[];
-  _tags: string[];
-  _version: string;
+  const pubKey = await ed.getPublicKey(privKey);
+  const signature = await ed.sign(message, privKey);
+  const isValid = await ed.verify(signature, message, pubKey);
+  console.log(`Signature valid: ${isValid}`);
 }
 
-class ProfileLinter {
+demoEd25519();
 
-}
+type ServiceProfileMetadata = {
+  id: string;
+  type?: string;
+  created?: string;
+  description?: string;
+  short_description?: string;
+  docs_url?: string;
+  supported_protocols?: string[];
+  tags?: string[];
+  version?: string;
+};
+
+class ProfileLinter {}
 
 class ServiceProfile {
-
-  this.metadata: ServiceProfileMetadata
-
-  constructor() {
+  metadata: ServiceProfileMetadata;
+  constructor(metadata: ServiceProfileMetadata) {
+    this.metadata = metadata;
   }
-
   async getProfile() {
     return "ServiceProfile";
   }
-
-  async sign(signer: Signer) {
-  }
-
+  async sign(signer: Signer) {}
 }
 
+// Define types for Signer and Verifier
 type Signer = {
-  sign(message: Hex, privateKey: Hex): Uint8Array;
-  signAsync(message: Hex, privateKey: Hex): Promise<Uint8Array>;
-}
+  sign(message: Uint8Array, privateKey: Uint8Array): Uint8Array;
+  signAsync(message: Uint8Array, privateKey: Uint8Array): Promise<Uint8Array>;
+};
 
 type Verifier = {
   verify(
-    signature: Hex, // returned by the `sign` function
-    message: Hex, // message that needs to be verified
-    publicKey: Hex // public (not private) key,
-    options = { zip215: true } // ZIP215 or RFC8032 verification type
+    signature: Uint8Array,
+    message: Uint8Array,
+    publicKey: Uint8Array,
+    options?: { zip215: boolean },
   ): boolean;
-  verifyAsync(signature: Hex, message: Hex, publicKey: Hex): Promise<boolean>;
-}
+  verifyAsync(
+    signature: Uint8Array,
+    message: Uint8Array,
+    publicKey: Uint8Array,
+  ): Promise<boolean>;
+};
 
-class ProfileSigner = {
+class ProfileSigner {
+  private privKey: Uint8Array;
 
-  privKey: Hex;
-
-  constructor(privKey?: Hex, method: "ed25519") {
-    if privKey ? this.priveKey = privKey : ed.utils.randomPrivateKey();
-    this.privKey = privKey
+  constructor(privKey?: Uint8Array) {
+    this.privKey = privKey || ed.utils.randomPrivateKey();
   }
 
-  sign(message: Hex, privateKey: Hex): Uint8Array {
-    return ed.sign(message, privateKey)
+  sign(message: Uint8Array): Uint8Array {
+    return ed.sign(message, this.privKey);
   }
 
-  signAsync(message: Hex, privateKey: Hex): Promise<Uint8Array>{
-     return ed.signAsync(message, privateKey)
-  }
-
-}
-
-
-class SchemaValidator {
-  static ajv = new Ajv();
-  constructor() {
-    this.validator = SchemaValidator.ajv.compile(profileSchema);
-  }
-
-  validate(data) {
-    return this.validator(data);
+  async signAsync(message: Uint8Array): Promise<Uint8Array> {
+    return ed.signAsync(message, this.privKey);
   }
 }
+
+export { ServiceProfile, ProfileSigner };
+
+export type { ServiceProfileMetadata };

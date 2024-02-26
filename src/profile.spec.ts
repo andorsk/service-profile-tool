@@ -2,7 +2,9 @@
  * test vectors
  */
 
-import { SchemaValidator } from "./schema";
+import { ServiceProfile, ServiceProfileMetadata } from "./index";
+
+import { SchemaValidator } from "./validator";
 
 const vector1 = {
   results: {
@@ -42,7 +44,7 @@ const vector2 = {
 };
 
 const testVectors = [vector1, vector2];
-it("test schema validator", () => {
+describe("test schema validator", () => {
   it("test basic vectors", () => {
     testVectors.forEach((vector) => {
       expect(SchemaValidator.validate(vector.data)).toBe(vector.results.valid);
@@ -50,7 +52,6 @@ it("test schema validator", () => {
   });
 });
 
-i;
-test("test profile generatar", () => {
-  profile1 = ServiceProfile();
+describe("test profile generatar", () => {
+  const profile1 = new ServiceProfile(vector1.data.metadata);
 });

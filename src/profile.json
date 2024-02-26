@@ -39,7 +39,6 @@
         },
         "docs_url": {
           "type": "string",
-          "format": "uri",
           "description": "URL to documentation for the profile data."
         },
         "version": {
