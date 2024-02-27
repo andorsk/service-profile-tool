@@ -8,6 +8,11 @@ Service profile tool is a tool that supports the [Service Profile Specification]
 - [ ] Profile Generation
 - [ ] Profile Validation
 
+## Outputs
+
+- [ ] CLI tool located at ./dist/bin/cli
+- [ ] Website ( not hosted yet )
+ 
 ## Build
 
 To build: 
