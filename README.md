@@ -36,3 +36,11 @@ yarn cli --help
 ```sh
 yarn cli --validate -url <path-to-url>
 ```
+
+## Screenshots
+
+### Web UI
+
+![img/00_ss.png](./img/00_ss.png)
+
+### CLI
