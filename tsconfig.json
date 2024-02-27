@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ESNext",
     "types": ["node", "jest"],
     "allowJs": true,
     "skipLibCheck": true,
+    "rootDirs": ["src/views", "generated/templates/views"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -17,6 +18,6 @@
     "outDir": "./dist"
   },
   "compileOnSave": true,
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "lib", "typings/**"]
 }
