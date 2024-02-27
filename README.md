@@ -1,9 +1,12 @@
 # service-profile-tool
 
+Service profile tool is a tool that supports the [Service Profile Specification](https://github.com/trustoverip/tswg-trust-registry-service-profile) at ToIP.
+
 ## Features
 
 - [x] Schema Validation
 - [ ] Profile Generation
+- [ ] Profile Validation
 
 ## Build
 
