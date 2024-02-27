@@ -1,8 +1,8 @@
 /** @type {import('jest').Config} */
 const config = {
-  moduleFileExtensions: ["js", "json", "ts"],
+  moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
   rootDir: "src",
-  preset: "ts-jest/presets/default-esm",
+  preset: "ts-jest",
   extensionsToTreatAsEsm: [".ts"],
   testRegex: ".*\\.spec\\.ts$",
   transform: {
