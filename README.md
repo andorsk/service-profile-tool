@@ -41,6 +41,6 @@ yarn cli --validate -url <path-to-url>
 
 ### Web UI
 
-![imgs/00_ss.png](./img/00_ss.png)
+![./imgs/00_ss.png](./img/00_ss.png)
 
 ### CLI
