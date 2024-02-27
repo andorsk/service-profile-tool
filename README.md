@@ -45,3 +45,5 @@ yarn cli --validate -url <path-to-url>
 ![./imgs/00_ss.png](./imgs/00_ss.png)
 
 ### CLI
+
+![./imgs/demo.gif](./imgs/demo.gif)
