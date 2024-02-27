@@ -1,7 +1,12 @@
 import Ajv from "ajv";
+import { serviceEndpointSchema } from "./schemas/serviceEndpoint.js";
 
 type DIDDocument = {
-  services: Service[];
+  service: Service[];
+};
+
+type DIDResults = {
+  didDocument: DIDDocument;
 };
 
 export const resolveDID = async (
@@ -9,34 +14,19 @@ export const resolveDID = async (
   RESOLVER_API_URL = "https://dev.uniresolver.io/1.0/identifiers/",
 ): Promise<DIDDocument> => {
   try {
+    console.log(`Resolving DID: ${did}`);
     const url = `${RESOLVER_API_URL}${did}`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    return data as DIDDocument; // Assuming you want to return the response data
+    return (data as DIDResults).didDocument; // Assuming you want to return the response data
   } catch (error) {
     throw new Error(`Error resolving DID: ${error}`);
   }
-};
-
-export const serviceEndpointSchema = {
-  $schema: "http://json-schema.org/draft-07/schema#",
-  type: "object",
-  properties: {
-    uri: {
-      type: "string",
-    },
-    profile: {
-      type: "string",
-    },
-    integrity: {
-      type: "string",
-    },
-  },
-  required: ["uri", "profile"],
-  additionalProperties: false,
 };
 
 type ServiceEndpoint = {

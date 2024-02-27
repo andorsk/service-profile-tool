@@ -1,8 +1,9 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import fs from "fs/promises"; // Using fs.promises for async file operations
-import { SchemaValidator } from "./validator";
-import { resolveDID } from "./did";
+import { SchemaValidator } from "../validator.js";
+import { resolveDID } from "../did.js";
+import readline from "readline";
 
 interface Arguments {
   validate?: boolean;
@@ -60,15 +61,65 @@ const validateProfile = async (args: Arguments) => {
 };
 
 const handleResolveDID = async (args: Arguments) => {
-  const did = await resolveDID(args.resolve!);
-  console.log(`${did.services.length} services available.`);
-  did.services.forEach((service: any) => {
-    console.log(`Service ID: ${service.id}`);
-    console.log(`Service Type: ${service.type}`);
-    console.log(`Service Endpoint: ${service.serviceEndpoint.uri}`);
-    console.log(`Service Profile: ${service.serviceEndpoint.profile}`);
+  const doc = await resolveDID(args.resolve!);
+  if (!doc) {
+    console.error("Error resolving DID");
+    process.exit(1);
+  }
+  if (!doc.service || doc.service.length === 0) {
+    console.info("No services available for the Doc.");
+    console.log(doc);
+    process.exit(1);
+  }
+  console.log(`${doc.service.length} services available.`);
+  let count = 0;
+  doc.service.forEach((service: any) => {
+    console.info(
+      `Index: ${count} Service ID: ${service.id} Service Type: ${service.type} Service Profile: ${service.serviceEndpoint.profile}`,
+    );
+    count++;
   });
-  // ask for input
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  rl.question(
+    "Enter the index of the service you want to resolve: ",
+    async (index: string) => {
+      try {
+        const n = parseInt(index);
+        if (n >= doc.service.length) {
+          console.error("Invalid index");
+          process.exit(1);
+        }
+        console.log("Resolving the service...");
+        fetchServiceProfile(doc.service[n].serviceEndpoint.profile);
+        console.log("choose the service to resolve", index);
+        rl.close();
+      } catch (error) {
+        console.error("Error resolving service:", error);
+        process.exit(1);
+      }
+    },
+  );
+};
+
+const fetchServiceProfile = async (url: string) => {
+  fetch(url, {
+    method: "GET",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error resolving service:", error);
+    });
 };
 
 const main = async () => {

@@ -18,5 +18,4 @@ export class ServiceProfile {
   async getProfile() {
     return "ServiceProfile";
   }
-  async sign(signer: Signer) {}
 }
