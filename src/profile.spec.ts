@@ -1,7 +1,3 @@
-/*
- * test vectors
- */
-
 import { ServiceProfile, ServiceProfileMetadata } from "./index";
 
 import { SchemaValidator } from "./validator";
