@@ -8,6 +8,7 @@ Service profile tool is a tool that supports the [Service Profile Specification]
 - [ ] Profile Generation
 - [ ] Profile Validation
 - [ ] DID Resolution w/ Profile Support
+- [ ] Indexing Service / Profile Search
 
 ## Outputs
 
