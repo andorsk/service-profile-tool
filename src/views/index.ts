@@ -19,20 +19,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!profileData) {
         throw new Error("Profile data not found");
       }
+      // @ts-ignore
       const profileDataText = profileData.value;
       try {
         const profileData = JSON.parse(profileDataText);
         const isValid = SchemaValidator.validate(profileData); // Replace this with your actual validation logic
         if (isValid) {
-          document.getElementById("validationResult").textContent =
+          document.getElementById("validationResult")!.textContent =
             "Profile is valid";
         } else {
-          document.getElementById("validationResult").textContent =
+          document.getElementById("validationResult")!.textContent =
             "Profile is not valid";
         }
       } catch (error) {
-        document.getElementById("validationResult").textContent =
-          "Error parsing profile data: " + error.message;
+        document.getElementById("validationResult")!.textContent =
+          "Error parsing profile data: " + error;
       }
     });
   } catch (error) {

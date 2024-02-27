@@ -18,7 +18,9 @@
   },
   "pkg": {
     "scripts": "dist/**/*.js",
-    "assets": ["dist/views/**/*"]
+    "assets": [
+      "dist/views/**/*"
+    ]
   },
   "dependencies": {
     "@noble/ed25519": "^2.0.0",

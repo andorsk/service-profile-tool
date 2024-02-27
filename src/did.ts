@@ -1,9 +1,13 @@
 import Ajv from "ajv";
 
+type DIDDocument = {
+  services: Service[];
+};
+
 export const resolveDID = async (
   did: string,
   RESOLVER_API_URL = "https://dev.uniresolver.io/1.0/identifiers/",
-) => {
+): Promise<DIDDocument> => {
   try {
     const url = `${RESOLVER_API_URL}${did}`;
     const response = await fetch(url);
@@ -11,7 +15,7 @@ export const resolveDID = async (
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    return data; // Assuming you want to return the response data
+    return data as DIDDocument; // Assuming you want to return the response data
   } catch (error) {
     throw new Error(`Error resolving DID: ${error}`);
   }
@@ -33,10 +37,6 @@ export const serviceEndpointSchema = {
   },
   required: ["uri", "profile"],
   additionalProperties: false,
-};
-
-type DIDDocument = {
-  services: Service[];
 };
 
 type ServiceEndpoint = {
