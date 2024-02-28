@@ -1,7 +1,7 @@
-import { resolveDID } from "../../did.js";
+import { resolveDID } from "../../lib/did.js";
 import readline from "readline";
-import { SchemaValidator } from "../../validator.js";
-import { ServiceProfile, ServiceProfileMetadata } from "../../models.js";
+import { SchemaValidator } from "../../lib/validator.js";
+import { ServiceProfile, ServiceProfileMetadata } from "../../lib/models.js";
 import { Arguments } from "./models.js";
 import { readFile, fetchServiceProfile } from "./util.js";
 

@@ -1,5 +1,5 @@
 import Ajv, { JSONSchemaType } from "ajv";
-import { profileSchema } from "./schemas/profile.js";
+import { profileSchema } from "../schemas/profile.js";
 
 export class SchemaValidator {
   private static ajv = new Ajv();

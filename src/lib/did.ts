@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import { serviceEndpointSchema } from "./schemas/serviceEndpoint.js";
+import { serviceEndpointSchema } from "../schemas/serviceEndpoint.js";
 
 type DIDDocument = {
   service: Service[];
