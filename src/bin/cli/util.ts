@@ -9,7 +9,8 @@ export const readFile = async (path: string): Promise<string> => {
 };
 
 export const fetchServiceProfile = async (url: string) => {
-  fetch(url, {
+  console.log("featching service profile", url);
+  await fetch(url, {
     method: "GET",
   })
     .then((response) => {
@@ -20,6 +21,7 @@ export const fetchServiceProfile = async (url: string) => {
     })
     .then((data) => {
       console.log(data);
+      return data;
     })
     .catch((error) => {
       console.error("Error resolving service:", error);

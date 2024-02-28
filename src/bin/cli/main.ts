@@ -51,7 +51,7 @@ const main = async () => {
     await handleValidateProfile(args);
     process.exit(0);
   } else if (args.resolve) {
-    handleResolveDID(args);
+    await handleResolveDID(args);
     process.exit(0);
   } else if (args.create) {
     console.log("Creating a service profile");

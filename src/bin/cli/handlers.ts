@@ -113,23 +113,24 @@ export const handleResolveDID = async (args: Arguments) => {
     input: process.stdin,
     output: process.stdout,
   });
-  rl.question(
-    "Enter the index of the service you want to resolve: ",
-    async (index: string) => {
-      try {
-        const n = parseInt(index);
-        if (n >= doc.service.length) {
-          console.error("Invalid index");
-          process.exit(1);
-        }
-        console.log("Resolving the service...");
-        fetchServiceProfile(doc.service[n].serviceEndpoint.profile);
-        console.log("choose the service to resolve", index);
-        rl.close();
-      } catch (error) {
-        console.error("Error resolving service:", error);
-        process.exit(1);
-      }
-    },
+  const index = await askQuestion(
+    rl,
+    "Enter the index of the service you want to resolve",
+    "0",
   );
+  try {
+    const n = parseInt(index);
+    if (n >= doc.service.length) {
+      console.error("Invalid index");
+      process.exit(1);
+    }
+    const profile = await fetchServiceProfile(
+      doc.service[n].serviceEndpoint.profile,
+    );
+    rl.close();
+    console.log("resolved service profile");
+  } catch (error) {
+    console.error("Error resolving service:", error);
+    process.exit(1);
+  }
 };
