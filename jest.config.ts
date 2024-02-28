@@ -5,8 +5,9 @@ const config = {
   preset: "ts-jest",
   extensionsToTreatAsEsm: [".ts"],
   testRegex: ".*\\.spec\\.ts$",
+  resolver: "ts-jest-resolver",
   transform: {
-    "^.+\\.(t|j)s$": "ts-jest",
+    "^.+\\.(t|j)s$": ["ts-jest", { useESM: true }],
   },
   testEnvironment: "node",
   transformIgnorePatterns: ["/node_modules/(?!@noble)"],
