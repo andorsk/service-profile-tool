@@ -4,11 +4,24 @@ Service profile tool is a tool that supports the [Service Profile Specification]
 
 ## Features
 
-- [x] Schema Validation
+### CLI 
+
+- [x] Profile Generation
+- [x] Profile Validation
+- [x] DID Resolution w/ Profile Support
+- [ ] Indexing Service / Profile Search
+- [ ] Signature Validation
+- [ ] Profile Hosting Service
+
+### Web UI 
+
+- [x] Profile Validation
 - [ ] Profile Generation
-- [ ] Profile Validation
 - [ ] DID Resolution w/ Profile Support
 - [ ] Indexing Service / Profile Search
+- [ ] Signature Validation
+- [ ] Profile Hosting Service
+
 
 ## Outputs
 
