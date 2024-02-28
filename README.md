@@ -1,5 +1,7 @@
 # service-profile-tool
 
+[![CI](https://github.com/andorsk/service-profile-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/andorsk/service-profile-tool/actions/workflows/ci.yml)
+
 Service profile tool is a tool that supports the [Service Profile Specification](https://github.com/trustoverip/tswg-trust-registry-service-profile) at ToIP.
 
 ## Features
