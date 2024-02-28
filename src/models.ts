@@ -10,12 +10,13 @@ export type ServiceProfileMetadata = {
   version?: string;
 };
 
+export type Proof = {};
+
 export class ServiceProfile {
   metadata: ServiceProfileMetadata;
-  constructor(metadata: ServiceProfileMetadata) {
+  proof?: Proof;
+  constructor(metadata: ServiceProfileMetadata, proof?: Proof) {
     this.metadata = metadata;
-  }
-  async getProfile() {
-    return "ServiceProfile";
+    this.proof = proof;
   }
 }

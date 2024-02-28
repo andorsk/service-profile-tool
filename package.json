@@ -6,21 +6,12 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "tsc -p tsconfig.build.json && mkdir -p dist/bin && pkg --target node14 dist/bin/cli.js -o dist/bin/cli",
-    "clean": "rm -rf dist",
-    "build:web": "mkdir -p dist/views && parcel build src/views/index.html --dist-dir dist/views",
-    "start": "node dist/index.js",
-    "cli": "dist/bin/cli",
-    "cli:dev": "ts-node src/cli.ts",
-    "web": "dist/bin/web",
-    "web:dev": "ts-node src/web.ts",
-    "serve:web": "parcel src/views/index.html"
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist"
   },
   "pkg": {
     "scripts": "dist/**/*.js",
-    "assets": [
-      "dist/views/**/*"
-    ]
+    "assets": ["dist/views/**/*"]
   },
   "dependencies": {
     "@noble/ed25519": "^2.0.0",
