@@ -1,6 +1,6 @@
 export type ServiceProfileMetadata = {
   id: string; // must be a UUID
-  constroller: string; // controls the service profile
+  controller?: string; // controls the service profile
   type?: string;
   created?: string;
   description?: string;
