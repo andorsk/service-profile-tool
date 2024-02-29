@@ -14,7 +14,6 @@ export const resolveDID = async (
   RESOLVER_API_URL = "https://dev.uniresolver.io/1.0/identifiers/",
 ): Promise<DIDDocument> => {
   try {
-    console.log(`Resolving DID: ${did}`);
     const url = `${RESOLVER_API_URL}${did}`;
     const response = await fetch(url, {
       method: "GET",

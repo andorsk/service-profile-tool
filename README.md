@@ -63,3 +63,12 @@ yarn cli --validate -url <path-to-url>
 ### CLI
 
 ![./imgs/demo.gif](./imgs/demo.gif)
+
+
+## Code Structure
+
+All code is in the `src` directory.
+
+- `lib` is for library tools
+- `bin` are entry points/executables
+- `schemas` are schemas

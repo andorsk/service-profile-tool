@@ -1,5 +1,6 @@
 export type ServiceProfileMetadata = {
-  id: string;
+  id: string; // must be a UUID
+  constroller: string; // controls the service profile
   type?: string;
   created?: string;
   description?: string;
@@ -10,7 +11,12 @@ export type ServiceProfileMetadata = {
   version?: string;
 };
 
-export type Proof = {};
+export type Proof = {
+  type: string;
+  created: string;
+  proofValue: string;
+  verificationMethod: string;
+};
 
 export class ServiceProfile {
   metadata: ServiceProfileMetadata;

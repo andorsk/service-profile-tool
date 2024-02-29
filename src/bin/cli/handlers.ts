@@ -4,6 +4,7 @@ import { SchemaValidator } from "../../lib/validator.js";
 import { ServiceProfile, ServiceProfileMetadata } from "../../lib/models.js";
 import { Arguments } from "./models.js";
 import { readFile, fetchServiceProfile } from "./util.js";
+import { v4 as uuidv4 } from "uuid";
 
 const askQuestion = (
   rl: any,
@@ -60,6 +61,7 @@ export const handleCreateProfile = async (): Promise<ServiceProfile> => {
   }
 
   meta.created = new Date().toISOString();
+  meta.id = uuidv4();
   rl.close();
   const sp = new ServiceProfile(meta as ServiceProfileMetadata);
   console.log("Service Profile created");
