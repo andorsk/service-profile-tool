@@ -4,6 +4,8 @@
 
 Service profile tool is a tool that supports the [Service Profile Specification](https://github.com/trustoverip/tswg-trust-registry-service-profile) at ToIP.
 
+This is an educational tool. It is _NOT_ meant for production.
+
 ## Features
 
 ### CLI 
@@ -72,3 +74,8 @@ All code is in the `src` directory.
 - `lib` is for library tools
 - `bin` are entry points/executables
 - `schemas` are schemas
+
+## Dependencies
+
+The service uses the [universolver](https://uniresolver.io/) to resolve DID's.
+Thank you to DIF and the WG ID team for hosting the tool.
