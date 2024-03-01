@@ -20,7 +20,10 @@ This is an educational tool. It is _NOT_ meant for production.
 
 ### Web UI 
 
-- [x] Profile Validation
+The focus will be on the CLI to begin with. Eventually, we'll put up a front end for it. A starting point has been made 
+in the `bin` directory. 
+
+- [ ] Profile Validation
 - [ ] Profile Generation
 - [ ] DID Resolution w/ Profile Support
 - [ ] Indexing Service / Profile Search
