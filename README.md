@@ -10,12 +10,13 @@ This is an educational tool. It is _NOT_ meant for production.
 
 ### CLI 
 
-- [x] Profile Generation
-- [x] Profile Validation
+- [x] Profile Schema Validation
 - [x] DID Resolution w/ Profile Support
+- [x] Referencing Tool
+- [ ] Profile Hosting Service
+- [ ] Profile Generation
 - [ ] Indexing Service / Profile Search
 - [ ] Signature Validation
-- [ ] Profile Hosting Service
 
 ### Web UI 
 
