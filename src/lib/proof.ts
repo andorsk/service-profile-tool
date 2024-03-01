@@ -1,10 +1,9 @@
 import * as ed from "@noble/ed25519";
 import { sha512 } from "@noble/hashes/sha512";
 import { ServiceProfileMetadata } from "../lib/models.js";
-import * as multiformats from "multiformats";
-
-import * as json from "multiformats/codecs/json";
 import { createHash } from "node:crypto";
+
+import * as multihashing from "multihashes";
 
 // pollyfills
 ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
@@ -64,15 +63,27 @@ export const createPublicPrivateKey = async (): Promise<{
   return { privateKey, publicKey };
 };
 
-export const generateIntegrityValueFromBytes = async (
-  bytes: Uint8Array,
-): Promise<string> => {
-  const sha256 = multiformats.hasher.from({
-    name: "sha2-256",
+export const generateIntegrityValueFromBytes = async (data: Uint8Array) => {
+  const hash = createHash("sha256").update(data).digest("hex");
+  const multihash = {
+    digest: hash,
+    name: "sha256",
     code: 0x12,
-    encode: (input) =>
-      new Uint8Array(createHash("sha256").update(input).digest()),
-  });
-  const hash = await sha256.digest(json.encode(bytes));
-  return hash.toString();
+    length: hash.length,
+  };
+  console.log(multihash);
+  const encoded = multihashing.encode(data, "sha2-256");
+  console.log(encoded);
+  console.log(
+    "decoded",
+    Buffer.from(multihashing.decode(encoded).digest).toString("hex"),
+  );
+  return hash;
+};
+
+export const generateIntegrityValueFromText = async (
+  text: string,
+): Promise<string> => {
+  const encoded = new TextEncoder().encode(text);
+  return generateIntegrityValueFromBytes(encoded);
 };

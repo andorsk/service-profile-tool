@@ -2,7 +2,7 @@ import { ServiceProfile } from "../lib/models.js";
 import {
   ProfileSigner,
   createPublicPrivateKey,
-  generateIntegrityValueFromBytes,
+  generateIntegrityValueFromText,
 } from "./proof.js";
 
 describe("test crypto libs", () => {
@@ -40,16 +40,13 @@ describe("test crypto libs", () => {
       metadata: metadata,
       proof: proof,
     } as ServiceProfile;
-    console.log(sp);
   });
 });
 
 describe("test integrity creator", () => {
-  it("test multihash", async () => {
-    const integrityValue = await generateIntegrityValueFromBytes(
-      Buffer.from("beep boop"),
-    );
-    expect(integrityValue).toBeDefined();
-    console.log("------------", integrityValue);
+  it("test multihash v2", async () => {
+    const hash = await generateIntegrityValueFromText("Merkle–Damgård");
+    expect(hash).toBeDefined();
+    console.log("sent hash", hash);
   });
 });
