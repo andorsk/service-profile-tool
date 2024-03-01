@@ -22,8 +22,8 @@ _over http_
 
 - [x] /POST Profile
 - [x] /GET Profiles/Profiles
-- [ ] Reference Profile
-- [ ] Resolve DID
+- [x] Reference Profile
+- [x] Resolve DID
 - [ ] Validate Profile
 - [ ] Indexing Service / Profile Search
 

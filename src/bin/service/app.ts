@@ -4,6 +4,8 @@ import { ProfileService } from "./service.js";
 import { CachedReference } from "./storage.js";
 import { ServiceProfile } from "../../lib/models.js";
 import { multiHash } from "../../lib/crypto.js";
+import { resolveDID } from "../../lib/did.js";
+import { fetchServiceProfile } from "./util.js";
 
 const app = express();
 const port = 3000;
@@ -60,6 +62,35 @@ apiRouter.get(
       uri: "<insert service uri here>",
     };
     return res.status(200).json(ret);
+  },
+);
+
+apiRouter.get(
+  "/resolve",
+  async (
+    req: Request,
+    res: Response,
+  ): Promise<Response<any, Record<string, any>>> => {
+    const did = req.query.did as string; // Type casting for simplicity, consider validating
+    let index = req.query.index as string; // Type casting for simplicity, consider validating
+    if (index === undefined) {
+      index = "0";
+    }
+    if (!did) {
+      return res
+        .status(400)
+        .send({ message: "DID is required for referencing" });
+    }
+    const doc = await resolveDID(did);
+
+    if (!doc || !doc.service || doc.service.length === 0) {
+      return res.status(500).send({ message: "No services available for doc" });
+    }
+    const n = parseInt(index);
+    const profile = await fetchServiceProfile(
+      doc.service[n].serviceEndpoint.profile,
+    );
+    return res.status(200).json(profile);
   },
 );
 
