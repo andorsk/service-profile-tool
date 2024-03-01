@@ -51,25 +51,25 @@ _yarn commands run against the builds in the ./bin folder_
 yarn cli --help
 ```
 
-### Validate
+#### Validate
 
 ```sh
 yarn cli --validate -url <path-to-url>
 ```
 
-### Verify
+#### Verify
 
 ```sh
 yarn cli --verify -url <path-to-url>
 ```
 
-### Resolve
+#### Resolve
 
 ```sh
 yarn resolve <did>
 ```
 
-### Reference
+#### Reference
 
 ```sh
 yarn reference <url>
