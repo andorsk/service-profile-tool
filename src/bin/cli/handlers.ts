@@ -6,7 +6,8 @@ import { Arguments } from "./models.js";
 import { readFile, fetchServiceProfile } from "./util.js";
 import { v4 as uuidv4 } from "uuid";
 
-import { multiHash } from "../../lib/proof.js";
+import { multiHash, createPublicPrivateKey } from "../../lib/crypto.js";
+import { ProfileSigner, verifyServiceProfileProof } from "../../lib/proof.js";
 
 const askQuestion = (
   rl: any,
@@ -19,6 +20,8 @@ const askQuestion = (
     });
   });
 };
+
+export const handleVerification = async (args: Arguments) => {};
 
 export const handleCreateProfile = async (): Promise<ServiceProfile> => {
   const rl = readline.createInterface({
@@ -65,7 +68,11 @@ export const handleCreateProfile = async (): Promise<ServiceProfile> => {
   meta.created = new Date().toISOString();
   meta.id = uuidv4();
   rl.close();
-  const sp = new ServiceProfile(meta as ServiceProfileMetadata);
+  let sp = new ServiceProfile(meta as ServiceProfileMetadata);
+  // gerneate keys
+  const { privateKey } = await createPublicPrivateKey();
+  const signer = new ProfileSigner(privateKey);
+  sp = signer.signProfile(sp);
   console.log("Service Profile created");
   console.log(JSON.stringify(sp, null, 2));
   return sp;
@@ -144,7 +151,6 @@ export const handleReferenceProfile = async (args: Arguments) => {
     console.error("URL is required for referencing");
     process.exit(1);
   }
-  // fetch
   const response = await fetch(args.reference, { method: "GET" });
   if (!response.ok) throw new Error("Network response was not ok.");
   const text = await response.text();

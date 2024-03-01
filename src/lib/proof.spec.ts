@@ -1,4 +1,4 @@
-import { ProfileSigner } from "./proof.js";
+import { ProfileSigner, verifyServiceProfileProof } from "./proof.js";
 import { ServiceProfile } from "../lib/models.js";
 import { createPublicPrivateKey } from "./crypto.js";
 
@@ -32,5 +32,13 @@ describe("generate proof", () => {
       metadata: metadata,
       proof: proof,
     } as ServiceProfile;
+    // verify
+    expect(verifyServiceProfileProof(proof, sp.metadata, publicKey)).toBe(true);
+    const badProof = proof;
+    badProof.proofValue =
+      "JvYm5nAQx5Y9dD0JURkTb4JvposPKBUsJ+wFVqmV668J7w+Kebm30mH2eaRfcZgZR8G+bhQtaC7eJ8p9f7YCAA==";
+    expect(verifyServiceProfileProof(badProof, sp.metadata, publicKey)).toBe(
+      false,
+    );
   });
 });
