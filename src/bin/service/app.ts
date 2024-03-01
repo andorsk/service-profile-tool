@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import { ProfileService } from "./service.js";
 import { CachedReference } from "./storage.js";
 import { ServiceProfile } from "../../lib/models.js";
+import { multiHash } from "../../lib/crypto.js";
 
 const app = express();
 const port = 3000;
@@ -27,9 +28,40 @@ apiRouter.get("/health", (req: Request, res: Response) => {
 });
 
 apiRouter.get("/profiles", (req: Request, res: Response) => {
-  console.log("Get all profiles");
   res.status(200).json(profileService.getAllProfiles());
 });
+
+type RequestReference = {
+  url: string;
+};
+
+apiRouter.get(
+  "/reference",
+  async (
+    req: Request,
+    res: Response,
+  ): Promise<Response<any, Record<string, any>>> => {
+    const url = req.query.url as string; // Type casting for simplicity, consider validating
+    if (!url) {
+      return res
+        .status(400)
+        .send({ message: "URL is required for referencing" });
+    }
+    const response = await fetch(url, { method: "GET" });
+    if (!response.ok) {
+      return res.status(500).send({ message: "Network response was not ok." });
+    }
+    const text = await response.text();
+    const buffer = Buffer.from(text);
+    const integrity = await multiHash(buffer);
+    const ret = {
+      integrity: integrity,
+      profile: url,
+      uri: "<insert service uri here>",
+    };
+    return res.status(200).json(ret);
+  },
+);
 
 // GET /profiles/:id - Get a profile by ID
 apiRouter.get("/profiles/:id", (req: Request, res: Response) => {
