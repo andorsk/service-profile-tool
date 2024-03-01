@@ -3,8 +3,6 @@ import { sha512 } from "@noble/hashes/sha512";
 import { ServiceProfileMetadata } from "../lib/models.js";
 import { createHash } from "node:crypto";
 
-import * as multihashing from "multihashes";
-
 // pollyfills
 ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
 
@@ -63,22 +61,25 @@ export const createPublicPrivateKey = async (): Promise<{
   return { privateKey, publicKey };
 };
 
+function encodeVarint(value: number): Uint8Array {
+  if (value < 0 || value > 127) {
+    throw new Error("This implementation supports values between 0 and 127.");
+  }
+  return new Uint8Array([value]);
+}
+
+export const multiHash = async (data: Uint8Array) => {
+  const hash = createHash("sha256").update(data).digest();
+  const hashCode = encodeVarint(0x12);
+  const hashLength = encodeVarint(hash.length);
+  const multihash = new Uint8Array([...hashCode, ...hashLength, ...hash]);
+  return Array.from(multihash)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+};
+
 export const generateIntegrityValueFromBytes = async (data: Uint8Array) => {
-  const hash = createHash("sha256").update(data).digest("hex");
-  const multihash = {
-    digest: hash,
-    name: "sha256",
-    code: 0x12,
-    length: hash.length,
-  };
-  console.log(multihash);
-  const encoded = multihashing.encode(data, "sha2-256");
-  console.log(encoded);
-  console.log(
-    "decoded",
-    Buffer.from(multihashing.decode(encoded).digest).toString("hex"),
-  );
-  return hash;
+  return multiHash(data);
 };
 
 export const generateIntegrityValueFromText = async (
