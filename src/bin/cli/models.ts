@@ -3,5 +3,6 @@ export type Arguments = {
   url?: string;
   resolve: string;
   reference: string;
+  verify: boolean;
   create: boolean;
 };

@@ -69,13 +69,38 @@ export const handleCreateProfile = async (): Promise<ServiceProfile> => {
   meta.id = uuidv4();
   rl.close();
   let sp = new ServiceProfile(meta as ServiceProfileMetadata);
-  // gerneate keys
+  // generate keys
   const { privateKey } = await createPublicPrivateKey();
   const signer = new ProfileSigner(privateKey);
   sp = signer.signProfile(sp);
   console.log("Service Profile created");
   console.log(JSON.stringify(sp, null, 2));
   return sp;
+};
+
+export const handleVerifyProfile = async (args: Arguments) => {
+  if (!args.url) {
+    console.error("URL is required for verification");
+    process.exit(1);
+  }
+  const profile = await fetchServiceProfile(args.url!);
+  if (!profile.proof) {
+    console.error("Profile has no proof");
+    process.exit(1);
+  }
+  const { publicKey } = await createPublicPrivateKey();
+  const isValid = verifyServiceProfileProof(
+    profile.proof,
+    profile.metadata,
+    publicKey,
+  );
+  if (isValid) {
+    console.log("Profile is verified");
+    process.exit(0);
+  } else {
+    console.error("Profile is not verified");
+    process.exit(1);
+  }
 };
 
 export const handleValidateProfile = async (args: Arguments) => {
@@ -139,7 +164,7 @@ export const handleResolveDID = async (args: Arguments) => {
       doc.service[n].serviceEndpoint.profile,
     );
     rl.close();
-    console.log("resolved service profile");
+    console.log(JSON.stringify(profile, null, 2));
   } catch (error) {
     console.error("Error resolving service:", error);
     process.exit(1);

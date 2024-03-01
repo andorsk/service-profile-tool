@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import { ServiceProfile } from "../../lib/models.js";
 
 export const readFile = async (path: string): Promise<string> => {
   try {
@@ -8,22 +9,15 @@ export const readFile = async (path: string): Promise<string> => {
   }
 };
 
-export const fetchServiceProfile = async (url: string) => {
-  console.log("featching service profile", url);
-  await fetch(url, {
+export const fetchServiceProfile = async (
+  url: string,
+): Promise<ServiceProfile> => {
+  const response = await fetch(url, {
     method: "GET",
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      return data;
-    })
-    .catch((error) => {
-      console.error("Error resolving service:", error);
-    });
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const data = await response.json();
+  return data as ServiceProfile;
 };

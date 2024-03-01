@@ -6,6 +6,7 @@ import {
   handleResolveDID,
   handleValidateProfile,
   handleReferenceProfile,
+  handleVerifyProfile,
 } from "./handlers.js";
 
 const checkArgs = (args: Arguments): boolean => {
@@ -13,6 +14,7 @@ const checkArgs = (args: Arguments): boolean => {
     (args.validate ? 1 : 0) +
     (args.resolve != "" ? 1 : 0) +
     (args.reference != "" ? 1 : 0) +
+    (args.verify ? 1 : 0) +
     (args.create ? 1 : 0);
   return total === 1;
 };
@@ -21,6 +23,11 @@ const parseArgs = async () => {
   const argv: Arguments | Promise<Arguments> = yargs(hideBin(process.argv))
     .option("validate", {
       describe: "validate the profile",
+      type: "boolean",
+      default: false,
+    })
+    .option("verify", {
+      describe: "verify a remote profile",
       type: "boolean",
       default: false,
     })
@@ -66,6 +73,9 @@ const main = async () => {
     process.exit(0);
   } else if (args.reference) {
     await handleReferenceProfile(args);
+    process.exit(0);
+  } else if (args.verify) {
+    await handleVerifyProfile(args);
     process.exit(0);
   }
 };
