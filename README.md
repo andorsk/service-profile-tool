@@ -53,11 +53,15 @@ yarn cli --help
 
 #### Validate
 
+Validate schema for a Service Profile
+
 ```sh
 yarn cli --validate -url <path-to-url>
 ```
 
 #### Verify
+
+Verify Service Profile Over Cryptographic Proof
 
 ```sh
 yarn cli --verify -url <path-to-url>
@@ -65,11 +69,15 @@ yarn cli --verify -url <path-to-url>
 
 #### Resolve
 
+Resolve a DID's Service Profile
+
 ```sh
 yarn resolve <did>
 ```
 
 #### Reference
+
+Reference a Remote Service Profile
 
 ```sh
 yarn reference <url>
