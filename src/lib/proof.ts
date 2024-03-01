@@ -68,6 +68,8 @@ function encodeVarint(value: number): Uint8Array {
   return new Uint8Array([value]);
 }
 
+// 256 multihash
+// TODO: might recommend moving to CID instead of multihash
 export const multiHash = async (data: Uint8Array) => {
   const hash = createHash("sha256").update(data).digest();
   const hashCode = encodeVarint(0x12);

@@ -6,6 +6,8 @@ import { Arguments } from "./models.js";
 import { readFile, fetchServiceProfile } from "./util.js";
 import { v4 as uuidv4 } from "uuid";
 
+import { multiHash } from "../../lib/proof.js";
+
 const askQuestion = (
   rl: any,
   question: string,
@@ -135,4 +137,23 @@ export const handleResolveDID = async (args: Arguments) => {
     console.error("Error resolving service:", error);
     process.exit(1);
   }
+};
+
+export const handleReferenceProfile = async (args: Arguments) => {
+  if (!args.reference) {
+    console.error("URL is required for referencing");
+    process.exit(1);
+  }
+  // fetch
+  const response = await fetch(args.reference, { method: "GET" });
+  if (!response.ok) throw new Error("Network response was not ok.");
+  const text = await response.text();
+  const buffer = Buffer.from(text);
+  const integrity = await multiHash(buffer);
+  const reference = {
+    integrity: integrity,
+    profile: args.reference,
+    uri: "<insert service uri here>",
+  };
+  console.log(JSON.stringify(reference, null, 2));
 };

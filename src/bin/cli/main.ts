@@ -5,12 +5,14 @@ import {
   handleCreateProfile,
   handleResolveDID,
   handleValidateProfile,
+  handleReferenceProfile,
 } from "./handlers.js";
 
 const checkArgs = (args: Arguments): boolean => {
   const total =
     (args.validate ? 1 : 0) +
     (args.resolve != "" ? 1 : 0) +
+    (args.reference != "" ? 1 : 0) +
     (args.create ? 1 : 0);
   return total === 1;
 };
@@ -28,6 +30,11 @@ const parseArgs = async () => {
     })
     .option("resolve", {
       describe: "resove the did",
+      type: "string",
+      default: "",
+    })
+    .option("reference", {
+      describe: "reference a service profile",
       type: "string",
       default: "",
     })
@@ -56,6 +63,9 @@ const main = async () => {
   } else if (args.create) {
     console.log("Creating a service profile");
     await handleCreateProfile();
+    process.exit(0);
+  } else if (args.reference) {
+    await handleReferenceProfile(args);
     process.exit(0);
   }
 };
