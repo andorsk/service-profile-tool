@@ -16,7 +16,7 @@ This is an educational tool. It is _NOT_ meant for production.
 - [ ] Profile Hosting Service
 - [ ] Profile Generation
 - [ ] Indexing Service / Profile Search
-- [ ] Signature Validation
+- [x] Signature Validation
 
 ### Web UI 
 
