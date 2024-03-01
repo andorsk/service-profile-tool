@@ -14,8 +14,8 @@ This is an educational tool. It is _NOT_ meant for production.
 - [x] DID Resolution w/ Profile Support
 - [x] Referencing Tool
 - [x] Signature Validation
+- [x] Profile Generation
 - [ ] Profile Hosting Service
-- [ ] Profile Generation
 - [ ] Indexing Service / Profile Search
 
 ### Web UI 
