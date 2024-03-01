@@ -15,7 +15,16 @@ This is an educational tool. It is _NOT_ meant for production.
 - [x] Referencing Tool
 - [x] Signature Validation
 - [x] Profile Generation
-- [ ] Profile Hosting Service
+
+### API 
+
+_over http_
+
+- [x] /POST Profile
+- [x] /GET Profiles/Profiles
+- [ ] Reference Profile
+- [ ] Resolve DID
+- [ ] Validate Profile
 - [ ] Indexing Service / Profile Search
 
 ### Web UI 
@@ -30,10 +39,10 @@ in the `bin` directory.
 - [ ] Signature Validation
 - [ ] Profile Hosting Service
 
-
 ## Outputs
 
 - [ ] CLI tool located at ./dist/bin/cli
+- [ ] Service APIs 
 - [ ] Website ( not hosted yet )
  
 ## Build
