@@ -13,10 +13,10 @@ This is an educational tool. It is _NOT_ meant for production.
 - [x] Profile Schema Validation
 - [x] DID Resolution w/ Profile Support
 - [x] Referencing Tool
+- [x] Signature Validation
 - [ ] Profile Hosting Service
 - [ ] Profile Generation
 - [ ] Indexing Service / Profile Search
-- [x] Signature Validation
 
 ### Web UI 
 
@@ -55,6 +55,24 @@ yarn cli --help
 
 ```sh
 yarn cli --validate -url <path-to-url>
+```
+
+### Verify
+
+```sh
+yarn cli --verify -url <path-to-url>
+```
+
+### Resolve
+
+```sh
+yarn resolve <did>
+```
+
+### Reference
+
+```sh
+yarn reference <url>
 ```
 
 ## Screenshots
