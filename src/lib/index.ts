@@ -1,5 +1,5 @@
-import { ServiceProfile, ServiceProfileMetadata } from "./models";
-import { SchemaValidator } from "./validator";
+import { ServiceProfile, ServiceProfileMetadata } from "./models.js";
+import { SchemaValidator } from "./validator.js";
 
 export { ServiceProfile, type ServiceProfileMetadata };
 export { SchemaValidator };

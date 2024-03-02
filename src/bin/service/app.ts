@@ -22,8 +22,16 @@ const profileService = new ProfileService();
 // POST /profiles - Create a new profile
 apiRouter.post("/profiles", (req: Request, res: Response) => {
   const profile: ServiceProfile = req.body;
+  console.log("Profile received", profile);
   profileService.saveProfile(profile);
   res.status(201).send({ message: "Profile created successfully" });
+});
+
+// POST /profiles - Create a new profile
+apiRouter.post("/validate/profile", (req: Request, res: Response) => {
+  const profile: ServiceProfile = req.body;
+  const isValid = profileService.validateProfile(profile);
+  res.status(200).send({ isValid });
 });
 
 apiRouter.get("/health", (req: Request, res: Response) => {
@@ -83,8 +91,8 @@ apiRouter.get(
         .status(400)
         .send({ message: "DID is required for referencing" });
     }
-    const doc = await resolveDID(did);
 
+    const doc = await resolveDID(did);
     if (!doc || !doc.service || doc.service.length === 0) {
       return res.status(500).send({ message: "No services available for doc" });
     }
@@ -138,6 +146,14 @@ app.use(express.static(publicDirectoryPath));
 
 app.get("/", (req, res) => {
   res.sendFile("views/index.html", { root: publicDirectoryPath });
+});
+
+app.get("/bundle.js", (req, res) => {
+  res.sendFile("views/bundle.js", { root: publicDirectoryPath });
+});
+
+app.get("/index.js", (req, res) => {
+  res.sendFile("views/index.js", { root: publicDirectoryPath });
 });
 
 app.listen(port, () => {

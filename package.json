@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "tsc -p tsconfig.build.json && mkdir -p dist/bin/service && cp -r src/bin/service/views dist/bin/service/",
+    "build": "tsc -p tsconfig.build.json && mkdir -p dist/bin/service && cp -r src/bin/service/views dist/bin/service/ && webpack && cp -r dist/bundle.js dist/bin/service/views/bundle.js",
     "start:cli": "node dist/bin/cli/main.js",
     "dev:service": "node dist/bin/service/app.js",
     "clean": "rm -rf dist"

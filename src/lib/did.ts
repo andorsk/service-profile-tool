@@ -19,7 +19,9 @@ export const resolveDID = async (
       method: "GET",
     });
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(
+        `HTTP error! status: ${response.status}. ${response.statusText}}`,
+      );
     }
     const data = await response.json();
     return (data as DIDResults).didDocument; // Assuming you want to return the response data

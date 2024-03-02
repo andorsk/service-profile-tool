@@ -1,6 +1,7 @@
 import { ProfileStorage, CachedReference } from "./storage.js";
 import { ServiceProfile } from "../../lib/models.js";
 import { JSONStorage } from "./storage.js";
+import { SchemaValidator } from "../../lib/validator.js";
 
 type GetAllProfilesResponse = Partial<ServiceProfile> & { id: string };
 
@@ -28,6 +29,11 @@ export class ProfileService {
       };
     });
   }
+
+  validateProfile(profile: ServiceProfile): boolean {
+    return SchemaValidator.validate(profile); // Replace this with your actual validation logic
+  }
+
   // Cached Reference Service
   setCachedPointer(reference: CachedReference) {
     this.storage.setCachedPointer(reference);

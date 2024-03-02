@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Service Profile Tool</title>
+    <script src="./bundle.js" type="module"></script>
     <script src="./index.js" type="module"></script>
     <style>
       body {
@@ -54,55 +55,50 @@ Insert profile data here...</textarea
         <p id="validationResult"></p>
         <div>
           <h2>Profile Resolver</h2>
-          <form id="didResolve">
-            <input type="text" id="did" placeholder="did" />
-            <button type="submit" id="resolveDID">
-              Resolve Profile From DID
-            </button>
-          </form>
+          <input type="text" id="didInput" placeholder="did" />
+          <button id="resolveDID">Resolve Profile From DID</button>
+          <p id="resolvedDIDResult"></p>
         </div>
         <div>
           <h2>Profile Reference</h2>
-          <form id="referenceProfile">
-            <input type="text" id="url" placeholder="url" />
-            <button type="submit" id="referenceProfile">
-              Create a reference from a profile.
-            </button>
-          </form>
+          <input type="text" id="referenceProfileInput" placeholder="url" />
+          <button id="referenceProfile">
+            Create a reference from a profile.
+          </button>
+          <p id="referenceProfileResult"></p>
         </div>
       </div>
 
       <div class="section">
         <h2>Profile Generator</h2>
-        <form id="profileForm">
-          <input
-            type="text"
-            id="profileType"
-            placeholder="Profile Type"
-            required
-          />
-          <input
-            type="text"
-            id="description"
-            placeholder="Description"
-            required
-          />
-          <input
-            type="text"
-            id="shortDescription"
-            placeholder="Short Description"
-            required
-          />
-          <input type="text" id="docsUrl" placeholder="Docs URL" required />
-          <input type="text" id="version" placeholder="Version" required />
-          <input
-            type="text"
-            id="tags"
-            placeholder="Tags (separate by comma)"
-            required
-          />
-          <button type="submit" id="generateButton">Generate</button>
-        </form>
+        Not currently working. Please use the command line tool.
+        <input
+          type="text"
+          id="profileType"
+          placeholder="Profile Type"
+          required
+        />
+        <input
+          type="text"
+          id="description"
+          placeholder="Description"
+          required
+        />
+        <input
+          type="text"
+          id="shortDescription"
+          placeholder="Short Description"
+          required
+        />
+        <input type="text" id="docsUrl" placeholder="Docs URL" required />
+        <input type="text" id="version" placeholder="Version" required />
+        <input
+          type="text"
+          id="tags"
+          placeholder="Tags (separate by comma)"
+          required
+        />
+        <button type="submit" id="generateButton">Generate</button>
         <button id="downloadPrivateKey">Download Key</button>
         <p id="generatedProfile"></p>
       </div>
@@ -111,24 +107,19 @@ Insert profile data here...</textarea
         <div class="store-profile-container">
           <h3>Store Profile</h3>
           Store a profile in the registry for future use.
-          <form id="storeProfile">
-            <textarea id="profileData" rows="10">
-Insert profile data here...</textarea
-            >
-            <button type="submit" id="storeProfile">Store Profile</button>
-          </form>
+          <textarea id="storeProfileData" rows="10">
+              Insert profile data here...</textarea
+          >
+          <button id="storeProfileButton">Store Profile</button>
+          <p id="storeProfileResult"></p>
         </div>
         <div class="lookup-profile-container">
           <h3>Lookup Profile</h3>
           Lookup profile
-          <form id="lookupProfile">
-            <select id="profileType">
-              <option value="all">All</option>
-              <option value="schema">Schema</option>
-              <option value="resolver">Resolver</option>
-              <option value="reference">Reference</option>
-          </form>
-          <div id="selectedProfile"/>
+          <select id="profileSelect">
+            <option value="all">Select</option>
+          </select>
+          <div id="selectedProfileResult" />
         </div>
       </div>
     </div>
