@@ -32,12 +32,14 @@ _over http_
 The focus will be on the CLI to begin with. Eventually, we'll put up a front end for it. A starting point has been made 
 in the `bin` directory. 
 
-- [ ] Profile Validation
-- [ ] Profile Generation
-- [ ] DID Resolution w/ Profile Support
+- [x] Profile Schema Validation
+- [x] DID Resolution w/ Profile Support
+- [x] Profile Reference
+- [x] Profile Hosting Service
 - [ ] Indexing Service / Profile Search
 - [ ] Signature Validation
-- [ ] Profile Hosting Service
+- [ ] Profile Validation
+- [ ] Profile Generation
 
 ## Outputs
 
