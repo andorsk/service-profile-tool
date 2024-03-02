@@ -6,6 +6,8 @@ import { ServiceProfile } from "../../lib/models.js";
 import { multiHash } from "../../lib/crypto.js";
 import { resolveDID } from "../../lib/did.js";
 import { fetchServiceProfile } from "./util.js";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
 const app = express();
 const port = 3000;
@@ -122,6 +124,20 @@ apiRouter.get("/cached-references/:id", (req: Request, res: Response) => {
   } else {
     res.status(404).send({ message: "Cached reference not found" });
   }
+});
+
+// ui
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Adjust the path according to where your 'index.html' is located
+const publicDirectoryPath = __dirname; //join(__dirname, "public");
+
+// Serve static files from 'public' directory
+app.use(express.static(publicDirectoryPath));
+
+app.get("/", (req, res) => {
+  res.sendFile("views/index.html", { root: publicDirectoryPath });
 });
 
 app.listen(port, () => {

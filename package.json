@@ -6,16 +6,14 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && cp -r src/bin/service/views dist/bin/service/",
     "start:cli": "node dist/bin/cli/main.js",
     "dev:service": "node dist/bin/service/app.js",
     "clean": "rm -rf dist"
   },
   "pkg": {
     "scripts": "dist/**/*.js",
-    "assets": [
-      "dist/views/**/*"
-    ]
+    "assets": ["dist/views/**/*"]
   },
   "dependencies": {
     "@noble/ed25519": "^2.0.0",

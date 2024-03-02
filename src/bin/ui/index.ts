@@ -1,5 +1,5 @@
 // index.ts
-import { SchemaValidator } from "../../../../lib/validator";
+import { SchemaValidator } from "../../lib/validator.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM content loaded");

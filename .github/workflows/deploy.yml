@@ -1,0 +1,32 @@
+name: CI
+on: [push]
+
+jobs:
+  build:
+    name: Deploy UI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+      - name: Build production bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build # will run `yarn build:prod` command
+      - name: Test the app
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test # will run `yarn test` command
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/bin/service/views
