@@ -17,14 +17,19 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
+
       - name: Build production bundle
         uses: borales/actions-yarn@v4
         with:
           cmd: build # will run `yarn build:prod` command
+
       - name: Test the app
         uses: borales/actions-yarn@v4
         with:
           cmd: test # will run `yarn test` command
+
+      - name: List files in the publish directory
+        run: ls -lR ./dist/bin/service/views
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
