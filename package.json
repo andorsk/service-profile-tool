@@ -9,6 +9,7 @@
     "build": "tsc -p tsconfig.build.json && mkdir -p dist/bin/service && npx parcel build src/bin/service/views/index.html --dist-dir dist/bin/service/",
     "start:cli": "node dist/bin/cli/main.js",
     "dev:service": "npx parcel serve src/bin/service/views/index.html --dist-dir dist/bin/service/",
+    "serve": "node dist/bin/service/main.js",
     "clean": "rm -rf dist"
   },
   "pkg": {

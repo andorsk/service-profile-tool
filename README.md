@@ -44,8 +44,8 @@ in the `bin` directory.
 ## Outputs
 
 - [ ] CLI tool located at ./dist/bin/cli
-- [ ] Service APIs 
-- [ ] Website ( not hosted yet )
+- [ ] Service APIs ( run yarn:serve to us )
+- [ ] Website [here](andorsk.github.io/service-profile-tool/)
  
 ## Build
 
