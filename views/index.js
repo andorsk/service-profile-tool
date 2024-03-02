@@ -1,9 +1,8 @@
-"use strict";
 // import { SchemaValidator } from "/bundle.js";
 // TODO : import directly from the bundle.js file
-// I know this is a little ugly. There are better ways to do this moving forward.
-// Just bear with it for now and :(.
-// TODO: fix the uri to env variable
+import { SchemaValidator } from "../../../lib/validator.js";
+import { resolveDID } from "../../../lib/did.js";
+import { fetchServiceProfile } from "../util.js";
 class ProfileAPI {
     baseUrl;
     constructor(baseUrl) {
@@ -73,6 +72,7 @@ const validate = () => {
             throw new Error("Validate button not found");
         }
         validateButton.addEventListener("click", async () => {
+            console.log("validating");
             const profileData = document.getElementById("profileData");
             if (!profileData) {
                 document.getElementById("validationResult").textContent =
@@ -82,9 +82,7 @@ const validate = () => {
             const profileDataText = profileData.value;
             try {
                 const profileData = JSON.parse(profileDataText);
-                const resp = await profileAPI.validateProfile(profileData);
-                const isValid = resp.isValid;
-                console.log(resp);
+                const isValid = SchemaValidator.validate(profileData);
                 if (isValid) {
                     document.getElementById("validationResult").textContent =
                         "Profile is valid";
@@ -108,6 +106,9 @@ const resolvers = () => {
     console.log("adding resolvers");
     document.getElementById("resolveDID")?.addEventListener("click", async () => {
         const resolvedDIDResult = document.getElementById("resolvedDIDResult");
+        if (!resolvedDIDResult) {
+            alert("DOM Element not found for resolvedDIDResult");
+        }
         try {
             const didInput = document.getElementById("didInput");
             if (!didInput) {
@@ -115,11 +116,14 @@ const resolvers = () => {
             }
             // @ts-ignore
             const did = didInput.value;
-            const resolved = await profileAPI.resolveDID(did);
-            if (!resolvedDIDResult) {
-                alert("Resolved DID: " + JSON.stringify(resolved, null, 2));
+            console.log("Resolving DID: ", did);
+            const doc = await resolveDID(did);
+            if (!doc || !doc.service || doc.service.length === 0) {
+                resolvedDIDResult.textContent = "DID not resolved";
             }
-            resolvedDIDResult.textContent = JSON.stringify(resolved, null, 2);
+            const profile = await fetchServiceProfile(doc.service[0].serviceEndpoint.profile);
+            resolvedDIDResult.textContent = JSON.stringify(profile, null, 2);
+            //const resolved = await profileAPI.resolveDID(did);
         }
         catch (error) {
             if (!resolvedDIDResult) {
