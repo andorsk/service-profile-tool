@@ -84,7 +84,7 @@ yarn cli --verify -url <path-to-url>
 Resolve a DID's Service Profile
 
 ```sh
-yarn resolve <did>
+yarn cli resolve <did>
 ```
 
 #### Reference
@@ -92,7 +92,7 @@ yarn resolve <did>
 Reference a Remote Service Profile
 
 ```sh
-yarn reference <url>
+yarn cli reference <url>
 ```
 
 ## Screenshots
