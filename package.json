@@ -6,15 +6,17 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "tsc -p tsconfig.build.json && mkdir -p dist/bin/service && npx parcel build src/bin/service/views/index.html --dist-dir dist/bin/service/",
+    "build": "tsc -p tsconfig.build.json && mkdir -p dist/bin/service && parcel build src/bin/service/views/index.html --dist-dir dist/bin/service/",
     "start:cli": "node dist/bin/cli/main.js",
-    "dev:service": "npx parcel serve src/bin/service/views/index.html --dist-dir dist/bin/service/",
+    "dev:service": "parcel serve src/bin/service/views/index.html --dist-dir dist/bin/service/",
     "serve": "node dist/bin/service/main.js",
     "clean": "rm -rf dist"
   },
   "pkg": {
     "scripts": "dist/**/*.js",
-    "assets": ["dist/views/**/*"]
+    "assets": [
+      "dist/views/**/*"
+    ]
   },
   "dependencies": {
     "@noble/ed25519": "^2.0.0",
@@ -39,9 +41,14 @@
     "@types/express": "^4.17.21",
     "@types/uuid": "^9.0.8",
     "babel-jest": "^29.7.0",
+    "buffer": "^5.5.0||^6.0.0",
+    "crypto-browserify": "^3.12.0",
+    "events": "^3.1.0",
     "express": "^4.18.2",
     "jest": "^29.7.0",
     "parcel": "^2.12.0",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
     "ts-jest": "^29.1.2",
     "ts-jest-resolver": "^2.0.1",
     "ts-node": "^10.9.2"

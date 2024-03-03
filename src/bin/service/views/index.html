@@ -71,35 +71,37 @@ Insert profile data here...</textarea
       <div class="section">
         <h2>Profile Generator</h2>
         Not currently working. Please use the command line tool.
-        <input
-          type="text"
-          id="profileType"
-          placeholder="Profile Type"
-          required
-        />
-        <input
-          type="text"
-          id="description"
-          placeholder="Description"
-          required
-        />
-        <input
-          type="text"
-          id="shortDescription"
-          placeholder="Short Description"
-          required
-        />
-        <input type="text" id="docsUrl" placeholder="Docs URL" required />
-        <input type="text" id="version" placeholder="Version" required />
-        <input
-          type="text"
-          id="tags"
-          placeholder="Tags (separate by comma)"
-          required
-        />
-        <button type="submit" id="generateButton">Generate</button>
+        <form id="generateProfileForm">
+          <input
+            type="text"
+            id="profileType"
+            placeholder="Profile Type"
+            required
+          />
+          <input
+            type="text"
+            id="description"
+            placeholder="Description"
+            required
+          />
+          <input
+            type="text"
+            id="shortDescription"
+            placeholder="Short Description"
+            required
+          />
+          <input type="text" id="docsUrl" placeholder="Docs URL" required />
+          <input type="text" id="version" placeholder="Version" required />
+          <input
+            type="text"
+            id="tags"
+            placeholder="Tags (separate by comma)"
+            required
+          />
+          <button type="submit" id="generateButton">Generate</button>
+        </form>
         <button id="downloadPrivateKey">Download Key</button>
-        <p id="generatedProfile"></p>
+        <p id="generatedProfileResult"></p>
       </div>
       <div class="section">
         <h2>Profile Registry</h2>

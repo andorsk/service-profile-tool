@@ -2,8 +2,13 @@
 // TODO : import directly from the bundle.js file
 
 import { SchemaValidator } from "../../../lib/validator.js";
+import { ServiceProfileMetadata, ServiceProfile } from "../../../lib/models.js";
 import { resolveDID } from "../../../lib/did.js";
 import { fetchServiceProfile } from "../util.js";
+import { createPublicPrivateKey } from "../../../lib/crypto.js";
+import { ProfileSigner } from "../../../lib/proof.js";
+import { v4 as uuidv4 } from "uuid";
+import { multiHash } from "../../../lib/crypto.js";
 
 class ProfileAPI {
   baseUrl: string;
@@ -162,16 +167,30 @@ const reference = () => {
         const urlInput = document.getElementById("referenceProfileInput");
         if (!urlInput) {
           resolvedProfileResult!.textContent = "URL input not found";
+          return;
         }
         console.log(urlInput);
         // @ts-ignore
         const url = urlInput.value;
-        const resolved = await profileAPI.referenceProfile(url);
-        console.log(resolved);
-        if (!resolvedProfileResult) {
-          alert("Resolved DID: " + JSON.stringify(resolved, null, 2));
+        const response = await fetch(url, { method: "GET" });
+        if (!response.ok) {
+          resolvedProfileResult!.textContent = "Network response was not ok.";
+          return;
         }
-        resolvedProfileResult!.textContent = JSON.stringify(resolved, null, 2);
+        const text = await response.text();
+        const buffer = Buffer.from(text);
+        const integrity = await multiHash(buffer);
+        const reference = {
+          integrity: integrity,
+          profile: url,
+          uri: "<insert service uri here>",
+        };
+        console.log(JSON.stringify(reference, null, 2));
+        //       const resolved = await profileAPI.referenceProfile(url);
+        if (!resolvedProfileResult) {
+          alert("Resolved DID: " + JSON.stringify(reference, null, 2));
+        }
+        resolvedProfileResult!.textContent = JSON.stringify(reference, null, 2);
       } catch (error) {
         if (!resolvedProfileResult) {
           alert("Error: " + error);
@@ -179,6 +198,49 @@ const reference = () => {
         resolvedProfileResult!.textContent = "Error resolving DID: " + error;
       }
     });
+};
+
+const generateProfile = () => {
+  // console.log("adding generateProfile");
+  // const form = document.getElementById("generateProfileForm");
+  // if (!form) {
+  //   throw new Error("Form not found");
+  // }
+  // const profileResult = document.getElementById("generatedProfileResult");
+  // form.addEventListener("submit", async (event: Event) => {
+  //   event.preventDefault();
+  //   const form = event.target as HTMLFormElement;
+  //   const formData = new FormData(form);
+  //   let meta: Partial<ServiceProfileMetadata> = {};
+  //   formData.forEach((value: FormDataEntryValue, key: string) => {
+  //     const metadataKey = key as keyof ServiceProfileMetadata;
+  //     if (key === "supported_protocols" || key === "tags") {
+  //       console.log("Splitting: ", value);
+  //       // meta[metadataKey] = value
+  //       //   .toString()
+  //       //   .split(",")
+  //       //   .map((tag) => tag.trim());
+  //     } else {
+  //       if (
+  //         typeof meta[metadataKey] === "string" ||
+  //         typeof meta[metadataKey] === "undefined"
+  //       ) {
+  //         // @ts-ignore
+  //         meta[metadataKey] = value.toString();
+  //       } else {
+  //         console.error(`Type mismatch for field: ${metadataKey}`);
+  //       }
+  //     }
+  //   });
+  //   meta.created = new Date().toISOString();
+  //   meta.id = uuidv4();
+  //   const { privateKey } = await createPublicPrivateKey();
+  //   const signer = new ProfileSigner(privateKey);
+  //   const signedProfile = signer.signProfile({
+  //     metadata: meta,
+  //   } as ServiceProfile);
+  //   profileResult!.textContent = JSON.stringify(signedProfile, null, 2);
+  // });
 };
 
 const getProfiles = async () => {
@@ -248,6 +310,7 @@ const setup = () => {
   reference();
   storeProfile();
   getProfiles();
+  generateProfile();
 };
 
 document.addEventListener("DOMContentLoaded", () => {

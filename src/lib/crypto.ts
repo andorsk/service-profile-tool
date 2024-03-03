@@ -1,5 +1,7 @@
-import { createHash } from "node:crypto";
+// import { createHash } from "node:crypto";
 import { sha512 } from "@noble/hashes/sha512";
+
+import { sha256 } from "@noble/hashes/sha256";
 
 import * as ed from "@noble/ed25519";
 ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
@@ -14,7 +16,8 @@ function encodeVarint(value: number): Uint8Array {
 // 256 multihash
 // TODO: might recommend moving to CID instead of multihash
 export const multiHash = async (data: Uint8Array) => {
-  const hash = createHash("sha256").update(data).digest();
+  const hash = sha256(data);
+  //  const hash = createHash("sha256").update(data).digest();
   const hashCode = encodeVarint(0x12);
   const hashLength = encodeVarint(hash.length);
   const multihash = new Uint8Array([...hashCode, ...hashLength, ...hash]);
