@@ -9,14 +9,12 @@
     "build": "tsc -p tsconfig.build.json && mkdir -p dist/bin/service && parcel build src/bin/service/views/index.html --dist-dir dist/bin/service/",
     "start:cli": "node dist/bin/cli/main.js",
     "dev:service": "parcel serve src/bin/service/views/index.html --dist-dir dist/bin/service/",
-    "serve": "node dist/bin/service/main.js",
+    "serve": "node dist/bin/service/app.js",
     "clean": "rm -rf dist"
   },
   "pkg": {
     "scripts": "dist/**/*.js",
-    "assets": [
-      "dist/views/**/*"
-    ]
+    "assets": ["dist/views/**/*"]
   },
   "dependencies": {
     "@noble/ed25519": "^2.0.0",

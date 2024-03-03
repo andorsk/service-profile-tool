@@ -8,8 +8,26 @@
         display: flex;
         flex-direction: column; /* Changed to column to accommodate title at the top */
         align-items: center;
-        padding: 20px;
+        padding-bottom: 200px; /* Spacing at the bottom to accommodate the footer */
       }
+
+      ul {
+        list-style-type: none; /* This removes the bullet points */
+      }
+
+      .caveats {
+        width: 100%; /* Footer spans the full width of the viewport */
+        position: fixed; /* Fixed positioning to stick at the bottom */
+        bottom: 0; /* Align to the bottom of the viewport */
+        left: 0; /* Align to the left of the viewport */
+        background-color: #f8f9fa; /* Light background color, adjust as needed */
+        text-align: center; /* Center the text/content inside the footer */
+        border-top: 1px solid #e7e7e7; /* Optional top border for a slight separation effect */
+        .caveats ul {
+          list-style-type: none; /* This removes the bullet points */
+        }
+      }
+
       .container {
         display: flex;
         justify-content: space-around;
@@ -19,6 +37,7 @@
       .section {
         flex: 1; /* Each section takes equal space */
         max-width: 500px; /* Maximum width */
+        min-width: 300px; /* Minimum width */
         margin: 0 10px; /* Spacing between sections */
       }
       textarea,
@@ -60,6 +79,7 @@
     <div class="container">
       <div class="section">
         <h2>Profile Schema Validator</h2>
+        Vaidate a profile against the ToIP Service Profile Specification.
         <textarea id="profileData" rows="10">
 Insert profile data here...</textarea
         >
@@ -67,16 +87,17 @@ Insert profile data here...</textarea
         <p class="codeblock" id="validationResult"></p>
         <div>
           <h2>Profile Resolver</h2>
+          Resolve a profile from a DID. Uses the first index currently.
           <input type="text" id="didInput" placeholder="did" />
           <button id="resolveDID">Resolve Profile From DID</button>
           <p class="codeblock" id="resolvedDIDResult"></p>
         </div>
         <div>
           <h2>Profile Reference</h2>
+
+          Create a reference from a profile.
           <input type="text" id="referenceProfileInput" placeholder="url" />
-          <button id="referenceProfile">
-            Create a reference from a profile.
-          </button>
+          <button id="referenceProfile">Create</button>
           <p class="codeblock" id="referenceProfileResult"></p>
         </div>
       </div>
@@ -144,6 +165,8 @@ Insert profile data here...</textarea
       </div>
       <div class="section">
         <h2>Profile Registry</h2>
+        Store and Lookup Profiles in a Remote Service
+        <h4>Configuration</h4>
         <label for="registryURI"> Registry URI: </label>
         <input
           id="registryURI"
@@ -171,8 +194,13 @@ Insert profile data here...</textarea
       </div>
       <div class="caveats">
         <ul>
+          <b>Notes/Caveats</b>
           <li>
-            Note: This tool is a work in progress and is not yet fully compliant
+            Service Profile Tool is a tool to generate, validate, and resolve
+            service profiles via ToIP Service Profile Specification.
+          </li>
+          <li>
+            This tool is a work in progress and may have some inconsistencies
             with the ToIP Service Profile Specification.
           </li>
 
