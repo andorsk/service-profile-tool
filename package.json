@@ -14,7 +14,9 @@
   },
   "pkg": {
     "scripts": "dist/**/*.js",
-    "assets": ["dist/views/**/*"]
+    "assets": [
+      "dist/views/**/*"
+    ]
   },
   "dependencies": {
     "@noble/ed25519": "^2.0.0",
@@ -23,6 +25,7 @@
     "@types/react": "^18.2.57",
     "@types/react-dom": "^18.2.19",
     "ajv": "^8.12.0",
+    "cors": "^2.8.5",
     "lowdb": "^7.0.1",
     "multihashes": "^4.0.3",
     "typescript": "^5.3.3",

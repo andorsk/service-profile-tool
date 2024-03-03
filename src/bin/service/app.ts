@@ -8,11 +8,18 @@ import { resolveDID } from "../../lib/did.js";
 import { fetchServiceProfile } from "./util.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import cors from "cors";
 
 const app = express();
 const port = 3000;
 
+var corsOptions = {
+  origin: "http://https://service-profiles.andor.us/",
+  optionsSuccessStatus: 200,
+};
+
 app.use(express.json());
+app.use(cors());
 
 const apiRouter = express.Router();
 app.use("/api", apiRouter);
