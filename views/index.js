@@ -64,7 +64,7 @@ class ProfileAPI {
         return response.json();
     }
 }
-const profileAPI = new ProfileAPI("http://localhost:3000/api");
+const profileAPI = new ProfileAPI("https://service-profile-api.andor.us/api");
 const validate = () => {
     console.log("DOM content loaded");
     try {
