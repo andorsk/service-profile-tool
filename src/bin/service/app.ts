@@ -14,7 +14,7 @@ const app = express();
 const port = 3000;
 
 var corsOptions = {
-  origin: "http://https://service-profiles.andor.us/",
+  origin: "https://service-profiles.andor.us/",
   optionsSuccessStatus: 200,
 };
 
