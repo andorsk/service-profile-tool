@@ -87,15 +87,17 @@ Insert profile data here...</textarea
         <p class="codeblock" id="validationResult"></p>
         <div>
           <h2>Profile Resolver</h2>
-          Resolve a profile from a DID. Uses the first index currently.
+          Resolve a profile from a DID. Uses the first index currently. Goes
+          through the service endpoints and resolves the first profile it finds.
           <input type="text" id="didInput" placeholder="did:web:andor.us" />
           <button id="resolveDID">Resolve Profile From DID</button>
           <p class="codeblock" id="resolvedDIDResult"></p>
         </div>
         <div>
           <h2>Profile Reference</h2>
-
-          Create a reference from a profile.
+          Create a reference from a profile. A reference is placed in the
+          service endpoint of a DID Document that is used to reference another
+          profile.
           <input
             type="text"
             id="referenceProfileInput"
