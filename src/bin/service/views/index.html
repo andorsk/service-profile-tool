@@ -18,6 +18,7 @@
       }
       .section {
         flex: 1; /* Each section takes equal space */
+        max-width: 500px; /* Maximum width */
         margin: 0 10px; /* Spacing between sections */
       }
       textarea,
@@ -33,6 +34,18 @@
       }
       button {
         cursor: pointer;
+      }
+      .codeblock {
+        font-family: "Courier New", Courier, monospace; /* Monospaced font for code-like appearance */
+        background-color: #f4f4f4; /* Light grey background */
+        color: #333; /* Darker text for contrast */
+        border: 1px solid #ccc; /* Light grey border */
+        border-radius: 4px; /* Rounded corners */
+        padding: 10px; /* Padding inside the codeblock */
+        margin: 10px 0; /* Margin above and below the codeblock */
+        overflow-x: auto; /* Ensures content is scrollable horizontally if it overflows */
+        white-space: pre-wrap; /* Maintains spacing and line breaks as in the source */
+        word-wrap: break-word; /* Ensures long words do not cause horizontal scrolling */
       }
     </style>
   </head>
@@ -51,12 +64,12 @@
 Insert profile data here...</textarea
         >
         <button id="validateButton">Validate</button>
-        <p id="validationResult"></p>
+        <p class="codeblock" id="validationResult"></p>
         <div>
           <h2>Profile Resolver</h2>
           <input type="text" id="didInput" placeholder="did" />
           <button id="resolveDID">Resolve Profile From DID</button>
-          <p id="resolvedDIDResult"></p>
+          <p class="codeblock" id="resolvedDIDResult"></p>
         </div>
         <div>
           <h2>Profile Reference</h2>
@@ -64,47 +77,80 @@ Insert profile data here...</textarea
           <button id="referenceProfile">
             Create a reference from a profile.
           </button>
-          <p id="referenceProfileResult"></p>
+          <p class="codeblock" id="referenceProfileResult"></p>
         </div>
       </div>
 
       <div class="section">
         <h2>Profile Generator</h2>
-        Not currently working. Please use the command line tool.
+        This tool will generate a service profile based on the input provided.
+        It will not send over any data and all keys are generated in your
+        browser.
         <form id="generateProfileForm">
+          <label for="profileType">Profile Type</label>
           <input
             type="text"
             id="profileType"
+            name="profileType"
             placeholder="Profile Type"
             required
           />
+
+          <label for="description">Description</label>
           <input
             type="text"
             id="description"
+            name="description"
             placeholder="Description"
-            required
           />
+
+          <label for="shortDescription">Short Description</label>
           <input
             type="text"
             id="shortDescription"
+            name="shortDescription"
             placeholder="Short Description"
-            required
           />
-          <input type="text" id="docsUrl" placeholder="Docs URL" required />
-          <input type="text" id="version" placeholder="Version" required />
+
+          <label for="docsUrl">Docs URL</label>
+          <input
+            type="text"
+            name="docsUrl"
+            id="docsUrl"
+            placeholder="Docs URL"
+          />
+
+          <label for="version">Version</label>
+          <input
+            type="text"
+            name="version"
+            id="version"
+            placeholder="Version"
+          />
+
+          <label for="tags">Tags</label>
           <input
             type="text"
             id="tags"
+            name="tags"
             placeholder="Tags (separate by comma)"
-            required
           />
+
           <button type="submit" id="generateButton">Generate</button>
         </form>
+
         <button id="downloadPrivateKey">Download Key</button>
-        <p id="generatedProfileResult"></p>
+        <p class="codeblock" id="generatedProfileResult"></p>
       </div>
       <div class="section">
         <h2>Profile Registry</h2>
+        <label for="registryURI"> Registry URI: </label>
+        <input
+          id="registryURI"
+          type="text"
+          label="Registry URI"
+          value="http://localhost:3000/api"
+        />
         <div class="store-profile-container">
           <h3>Store Profile</h3>
           Store a profile in the registry for future use.
@@ -122,6 +168,23 @@ Insert profile data here...</textarea
           </select>
           <div id="selectedProfileResult" />
         </div>
+      </div>
+      <div class="caveats">
+        <ul>
+          <li>
+            Note: This tool is a work in progress and is not yet fully compliant
+            with the ToIP Service Profile Specification.
+          </li>
+
+          <li>
+            For DID resolution, the tool uses the uniresolver service provided
+            by Decentralized Identity Foundation (DIF). Thank you to the ID WG
+            and their work to keep this service alive. Check out more
+            <a href="https://uniresolver.io/"> here</a>.
+          </li>
+          <li>No keys are ever transmitted</li>
+          <li>The profile registry is a hosted service at api.andor.us</li>
+        </ul>
       </div>
     </div>
   </body>

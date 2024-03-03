@@ -119,6 +119,13 @@ const validate = () => {
   }
 };
 
+let privateKey: Uint8Array;
+const generateKeys = async () => {
+  const ppk = await createPublicPrivateKey();
+  privateKey = ppk.privateKey;
+  console.log("generated key: ", privateKey);
+};
+
 const resolvers = () => {
   console.log("adding resolvers");
   document.getElementById("resolveDID")?.addEventListener("click", async () => {
@@ -134,7 +141,6 @@ const resolvers = () => {
       }
       // @ts-ignore
       const did = didInput.value;
-      console.log("Resolving DID: ", did);
       const doc = await resolveDID(did);
       if (!doc || !doc.service || doc.service.length === 0) {
         resolvedDIDResult!.textContent = "DID not resolved";
@@ -200,47 +206,53 @@ const reference = () => {
     });
 };
 
+const downloadKeyListener = () => {
+  const downloadKeyButton = document.getElementById("downloadPrivateKey");
+  if (!downloadKeyButton) {
+    throw new Error("Download key button not found");
+  }
+  downloadKeyButton.addEventListener("click", async () => {
+    const blob = new Blob([privateKey], { type: "text/plain" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "privateKey.txt";
+    a.click();
+  });
+};
+
 const generateProfile = () => {
-  // console.log("adding generateProfile");
-  // const form = document.getElementById("generateProfileForm");
-  // if (!form) {
-  //   throw new Error("Form not found");
-  // }
-  // const profileResult = document.getElementById("generatedProfileResult");
-  // form.addEventListener("submit", async (event: Event) => {
-  //   event.preventDefault();
-  //   const form = event.target as HTMLFormElement;
-  //   const formData = new FormData(form);
-  //   let meta: Partial<ServiceProfileMetadata> = {};
-  //   formData.forEach((value: FormDataEntryValue, key: string) => {
-  //     const metadataKey = key as keyof ServiceProfileMetadata;
-  //     if (key === "supported_protocols" || key === "tags") {
-  //       console.log("Splitting: ", value);
-  //       // meta[metadataKey] = value
-  //       //   .toString()
-  //       //   .split(",")
-  //       //   .map((tag) => tag.trim());
-  //     } else {
-  //       if (
-  //         typeof meta[metadataKey] === "string" ||
-  //         typeof meta[metadataKey] === "undefined"
-  //       ) {
-  //         // @ts-ignore
-  //         meta[metadataKey] = value.toString();
-  //       } else {
-  //         console.error(`Type mismatch for field: ${metadataKey}`);
-  //       }
-  //     }
-  //   });
-  //   meta.created = new Date().toISOString();
-  //   meta.id = uuidv4();
-  //   const { privateKey } = await createPublicPrivateKey();
-  //   const signer = new ProfileSigner(privateKey);
-  //   const signedProfile = signer.signProfile({
-  //     metadata: meta,
-  //   } as ServiceProfile);
-  //   profileResult!.textContent = JSON.stringify(signedProfile, null, 2);
-  // });
+  console.log("adding generateProfile");
+  const form = document.getElementById("generateProfileForm");
+  if (!form) {
+    throw new Error("Form not found");
+  }
+  const profileResult = document.getElementById("generatedProfileResult");
+  form.addEventListener("submit", async (event: Event) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    let meta: Partial<ServiceProfileMetadata> = {};
+    formData.forEach((value: FormDataEntryValue, key: string) => {
+      const metadataKey = key as keyof ServiceProfileMetadata;
+      if (key === "supported_protocols" || key === "tags") {
+        meta[metadataKey] = value
+          .toString()
+          .split(",")
+          .map((tag) => tag.trim());
+      } else {
+        // @ts-ignore
+        meta[metadataKey] = value.toString();
+      }
+    });
+    meta.created = new Date().toISOString();
+    meta.id = uuidv4();
+    const signer = new ProfileSigner(privateKey);
+    const signedProfile = signer.signProfile({
+      metadata: meta,
+    } as ServiceProfile);
+    profileResult!.textContent = JSON.stringify(signedProfile, null, 2);
+  });
 };
 
 const getProfiles = async () => {
@@ -305,12 +317,14 @@ const storeProfile = () => {
 };
 
 const setup = () => {
+  generateKeys();
   validate();
   resolvers();
   reference();
   storeProfile();
   getProfiles();
   generateProfile();
+  downloadKeyListener();
 };
 
 document.addEventListener("DOMContentLoaded", () => {
