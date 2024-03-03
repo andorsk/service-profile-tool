@@ -236,6 +236,7 @@ const generateProfile = () => {
     formData.forEach((value: FormDataEntryValue, key: string) => {
       const metadataKey = key as keyof ServiceProfileMetadata;
       if (key === "supported_protocols" || key === "tags") {
+        // @ts-ignore
         meta[metadataKey] = value
           .toString()
           .split(",")
