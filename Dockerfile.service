@@ -3,6 +3,7 @@ FROM node:lts as builder
 MAINTAINER Andor Kesselman <andor@andor.us>
 WORKDIR /app
 COPY . .
+COPY data/db.json db.json
 RUN yarn install
 RUN yarn build
 ENV HOST 0.0.0.0
